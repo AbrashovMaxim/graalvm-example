@@ -125,9 +125,9 @@
   }]},
   "bundles":[{
     "name":"com.sun.javafx.tk.quantum.QuantumMessagesBundle",
-    "locales":["", "und"]
+    "locales":["und"]
   }, {
     "name":"com/sun/glass/ui/win/themes",
-    "locales":["", "und"]
+    "locales":["und"]
   }]
 }

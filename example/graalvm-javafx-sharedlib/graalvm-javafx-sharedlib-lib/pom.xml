@@ -50,10 +50,11 @@
         </executions>
         <configuration>
           <imageName>app-name</imageName> <!-- Название приложения -->
-          <mainClass>ru.axalit.graalvm_javafx_sharedlib.lib.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
+          <mainClass>ru.axalit.graalvm.javafx.sharedlib.lib.AxDemoLib</mainClass> <!-- Package стартового класса -->
           <fallback>false</fallback> <!-- Создание резервного исполняемого файла -->
           <verbose>true</verbose> <!-- Включение подробного вывода сборки -->
-
+          <sharedLibrary>true</sharedLibrary> <!-- Собрать нативную библиотеку -->
+          <configFiles>${basedir}/../../../configurations/graalvm-javafx-sharedlib/lib</configFiles> <!-- Путь до конфигурационного файла -->
         </configuration>
       </plugin>
 
@@ -69,7 +70,12 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/../../../../target/graalvm-javafx-sharedlib/libs/" overwrite="true">
+                  <copy todir="${basedir}/../../../libs/" overwrite="true">
+                  <fileset dir="${basedir}/target">
+                    <include name="app-name.dll"/>
+                  </fileset>
+                </copy>
+                <copy todir="${basedir}/../../../target/graalvm-javafx-sharedlib/libs/" overwrite="true">
                   <fileset dir="${basedir}/target">
                     <include name="app-name.dll"/>
                   </fileset>

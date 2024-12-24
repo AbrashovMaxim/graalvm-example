@@ -19,7 +19,6 @@
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.source>21</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.version>5.10.0</junit.version>
   </properties>
 
   <dependencies>
@@ -47,6 +46,13 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ru.axalit.example.javafx-sharedlib</groupId>
+      <artifactId>graalvm-javafx-sharedlib-proxy</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
@@ -79,10 +85,10 @@
         </executions>
         <configuration>
           <imageName>app-name</imageName> <!-- Название приложения -->
-          <mainClass>ru.axalit.graalvm_javafx_sharedlib.display.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
+          <mainClass>ru.axalit.graalvm.javafx.sharedlib.display.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
           <fallback>false</fallback> <!-- Создание резервного исполняемого файла -->
           <verbose>true</verbose> <!-- Включение подробного вывода сборки -->
-          <configFiles>${basedir}/../../../../configurations/graalvm-javafx-sharedlib</configFiles> <!-- Путь до конфигурационного файла -->
+          <configFiles>${basedir}/../../../configurations/graalvm-javafx-sharedlib/display</configFiles> <!-- Путь до конфигурационного файла -->
           <buildArgs>
             <buildArg>-Dfile.encoding=UTF-8</buildArg> <!-- Установка кодировки UTF-8 ( нужно, т.к. при подгрузке каких-то файлов или вывода в консоль, кодировку он ставит не UTF-8 -->
             <buildArg>-H:+ReportExceptionStackTraces</buildArg> <!-- Подробный вывод ошибки с StackTrace ( нужно, если будет вылезать какая-то ошибка при сборке ) -->
@@ -107,7 +113,7 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/../../../../target/graalvm-javafx-sharedlib/" overwrite="true">
+                <copy todir="${basedir}/../../../target/graalvm-javafx-sharedlib/" overwrite="true">
                   <fileset dir="${basedir}/target">
                     <include name="app-name.exe"/>
                   </fileset>

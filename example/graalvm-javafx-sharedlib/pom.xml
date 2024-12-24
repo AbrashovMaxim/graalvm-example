@@ -24,6 +24,7 @@
   </properties>
 
   <modules>
+    <module>graalvm-javafx-sharedlib-proxy</module>
     <module>graalvm-javafx-sharedlib-display</module>
     <module>graalvm-javafx-sharedlib-lib</module>
   </modules>

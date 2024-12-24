@@ -20,7 +20,7 @@
   <modules>
     <module>example/graalvm-javafx</module>
     <module>example/graalvm-javafx-sharedlib</module>
-    <module>example/graalvm-sharedlib</module>
+    <module>example/graalvm-sharedlibs</module>
 <!--    <module>example/graalvm-sharedlibs</module>-->
   </modules>
 

@@ -223,7 +223,7 @@
   "name":"javafx.stage.Window"
 },
 {
-  "name":"ru.axalit.graalvm_javafx.AxDemoApplication",
+  "name":"ru.axalit.graalvm.javafx.AxDemoApplication",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {

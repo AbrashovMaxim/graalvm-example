@@ -79,10 +79,10 @@
         </executions>
         <configuration>
           <imageName>app-name</imageName> <!-- Название приложения -->
-          <mainClass>ru.axalit.graalvm_javafx.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
+          <mainClass>ru.axalit.graalvm.javafx.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
           <fallback>false</fallback> <!-- Создание резервного исполняемого файла -->
           <verbose>true</verbose> <!-- Включение подробного вывода сборки -->
-          <configFiles>${project.basedir}/../../configurations/GraalVM_JavaFX</configFiles> <!-- Путь до конфигурационного файла -->
+          <configFiles>${project.basedir}/../../configurations/graalvm_javafx</configFiles> <!-- Путь до конфигурационного файла -->
           <buildArgs>
             <buildArg>-Dfile.encoding=UTF-8</buildArg> <!-- Установка кодировки UTF-8 ( нужно, т.к. при подгрузке каких-то файлов или вывода в консоль, кодировку он ставит не UTF-8 -->
             <buildArg>-H:+ReportExceptionStackTraces</buildArg> <!-- Подробный вывод ошибки с StackTrace ( нужно, если будет вылезать какая-то ошибка при сборке ) -->
@@ -107,7 +107,7 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/../../target/GraalVM_JavaFX/" overwrite="true">
+                <copy todir="${basedir}/../../target/graalvm-javafx/" overwrite="true">
                   <fileset dir="${basedir}/target">
                     <include name="app-name.exe"/>
                   </fileset>
