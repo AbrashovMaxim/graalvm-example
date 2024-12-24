@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ru.axalit.example</groupId>
+    <artifactId>graalvm-javafx-sharedlib</artifactId>
+    <version>1.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <groupId>ru.axalit.example.javafx-sharedlib</groupId>
+  <artifactId>graalvm-javafx-sharedlib-display</artifactId>
+  <version>1.0</version>
+
+  <properties>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>5.10.0</junit.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>21</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>21</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.graalvm.buildtools</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <version>0.10.3</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>build-native</id>
+            <goals>
+              <goal>compile-no-fork</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <imageName>app-name</imageName> <!-- Название приложения -->
+          <mainClass>ru.axalit.graalvm_javafx_sharedlib.display.AxDemoLaunch</mainClass> <!-- Package стартового класса -->
+          <fallback>false</fallback> <!-- Создание резервного исполняемого файла -->
+          <verbose>true</verbose> <!-- Включение подробного вывода сборки -->
+          <configFiles>${basedir}/../../../../configurations/graalvm-javafx-sharedlib</configFiles> <!-- Путь до конфигурационного файла -->
+          <buildArgs>
+            <buildArg>-Dfile.encoding=UTF-8</buildArg> <!-- Установка кодировки UTF-8 ( нужно, т.к. при подгрузке каких-то файлов или вывода в консоль, кодировку он ставит не UTF-8 -->
+            <buildArg>-H:+ReportExceptionStackTraces</buildArg> <!-- Подробный вывод ошибки с StackTrace ( нужно, если будет вылезать какая-то ошибка при сборке ) -->
+            <buildArg>-H:+AddAllCharsets</buildArg> <!-- Сделать все размещенные наборы символов доступными во время выполнения -->
+            <buildArg>--enable-url-protocols=http,https</buildArg> <!-- Нужно, если посылаем какие-то реквесты в сетку -->
+            <buildArg>--initialize-at-build-time=com.sun.glass.ui.Screen</buildArg> <!-- Инициализируем сразу класс Screen ( JAVAFX ) - это нужно, т.к. там дофига рефлексий к другим классам, и без этого приложение на JavaFX не запустится -->
+            <buildArg>-H:NativeLinkerOption=/SUBSYSTEM:WINDOWS</buildArg> <!-- Нужно, чтобы не открывалась консоль при запуске приложения ( без этого, открывается консоль, и если её закрыть, то закрывается и приложение ) -->
+            <buildArg>-H:NativeLinkerOption=/ENTRY:mainCRTStartup</buildArg> <!-- Меняем на точку, это также нужно, чтобы не открывалась консоль приложения ( ЧИТАЙ ВВЕРХНИЙ АРГУМЕНТ ) -->
+          </buildArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${basedir}/../../../../target/graalvm-javafx-sharedlib/" overwrite="true">
+                  <fileset dir="${basedir}/target">
+                    <include name="app-name.exe"/>
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
