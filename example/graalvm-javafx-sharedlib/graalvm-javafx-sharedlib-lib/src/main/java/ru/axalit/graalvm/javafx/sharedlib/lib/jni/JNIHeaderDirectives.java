@@ -8,6 +8,7 @@ import java.util.List;
 
 public class JNIHeaderDirectives implements CContext.Directives {
 
+    // Обязательно нужно поменять на свой путь до GraalVM JDK
     private static final String PATH_TO_GRAALVM_JDK = System.getProperty("java.home");
 
 
